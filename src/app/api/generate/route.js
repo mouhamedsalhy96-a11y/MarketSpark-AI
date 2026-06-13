@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Initialize Gemini with your API key
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export async function POST(req) {
@@ -23,7 +23,7 @@ export async function POST(req) {
       }
     `;
 
-    // Updated to the newest 2026 Google model!
+    
     const model = genAI.getGenerativeModel({ 
         model: "gemini-2.5-flash",
         generationConfig: { responseMimeType: "application/json" }
@@ -32,7 +32,7 @@ export async function POST(req) {
     const result = await model.generateContent(prompt);
     const responseText = result.response.text();
     
-    // Parse the JSON returned by Gemini
+    
     const parsedData = JSON.parse(responseText);
 
     return NextResponse.json(parsedData);
