@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export async function POST(req) {
@@ -23,26 +22,23 @@ export async function POST(req) {
       }
     `;
 
-    
-    const model = genAI.getGenerativeModel({ 
-        model: "gemini-2.5-flash",
-        generationConfig: { responseMimeType: "application/json" }
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.5-flash",
+      generationConfig: { responseMimeType: "application/json" },
     });
 
     const result = await model.generateContent(prompt);
     const responseText = result.response.text();
-    
-    
+
     const parsedData = JSON.parse(responseText);
 
     return NextResponse.json(parsedData);
-
   } catch (error) {
     console.error("Gemini API Error:", error);
-    
+
     return NextResponse.json(
       { error: "Failed to generate copy. Error: " + error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
